@@ -36,35 +36,23 @@ public class BlockCollision : MonoBehaviour {
             bSoundPlayed = true;
         }
         blockCount.AddToScore(PointsToAdd);
-        
-        ScaleDown.Play("Shrink");
-       // Destroy(gameObject,crunchsound.length);
+        if (ThanosSnap)
+            ThanosSnap.Play();
+        if (ScaleDown)
+            ScaleDown.Play("Shrink");
+        Destroy(gameObject,2);
     }
     private void OnDestroy()
     {
-        if(ThanosSnap)
-        ThanosSnap.Play();
-       
+        
         blockCount.DecBlock();
         //Destroy(ParticleEffectObject, 5);
-        
+        //Destroy(CreatedPrefab, 5);
 
     }
     // Update is called once per frame
     void Update()
     {
-        if (j == i)
-        {
-            if (ScaleDown)
-            {
-                ScaleDown.enabled = true; ScaleDown.Play("Shrink");
-
-                //ScaleDown.SetBool("Shrink", true);
-            }
-            Debug.Log("Anumation shouldve startetd");
-        }
-            j++;
-        Debug.Log("J=" + j);
-        
+      
     }
 }

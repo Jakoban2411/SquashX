@@ -12,6 +12,7 @@ public class BlockCount : MonoBehaviour {
     void Start() {
         TimeScale = 1;
         PlayerScore = 0;
+        
        
     }
     public void IncBlockNo()
