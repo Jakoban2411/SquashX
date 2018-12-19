@@ -3,31 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour {
-    [SerializeField] float ScreenExit = -.80f;
-    [SerializeField] float ScreenEntry = 18.625f;
+    public float movementscale;
+    float dist;
+    float leftBorder;
+    float rightBorder ;
     // Use this for initialization
     void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        dist = (transform.position - Camera.main.transform.position).z;
+        leftBorder = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, dist)).x;
+        rightBorder = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, dist)).x;
+    }
+
+    // Update is called once per frame
+    void Update()
     {
-        float val = Input.GetAxis("Horizontal");
-        //float displacementx = val * Time.deltaTime;
-        Vector3 position = transform.position;
-        Vector2 newposition = new Vector2(val, 0);
-        newposition *= Time.deltaTime;
-        if (transform.position.x <= ScreenExit)
+        if (FindObjectOfType<BlockCount>().isAutoplay())
         {
-            transform.position=new Vector3(ScreenEntry, position.y,-1);
-            Debug.Log("Yup!");
+            float DockPosition = FindObjectOfType<BallProperties>().transform.position.x;
+            transform.position = new Vector3(DockPosition, transform.position.y,transform.position.z);
         }
         else
         {
-            if (transform.position.x >= ScreenEntry)
-                transform.position = new Vector3(ScreenExit, position.y,-1);
+            float val = Input.GetAxis("Horizontal");
+            //float displacementx = val * Time.deltaTime;
+            Vector3 position = transform.position;
+            Vector2 newposition = new Vector2(val, 0);
+            newposition *= Time.deltaTime;
+            //transform.Translate(newposition * movementscalWe);
+            float xpos = Mathf.Clamp(transform.position.x+newposition.x * movementscale,leftBorder+.8f,rightBorder-.8f);
+            transform.position = new Vector3(xpos, transform.position.y, transform.position.z);            
         }
-        transform.Translate(newposition*5);
     }
 }

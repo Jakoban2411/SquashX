@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class BallProperties : MonoBehaviour
 {
+    public int randomvelocityfactor;
     [SerializeField] Movement P1Dock;
     [SerializeField] AudioClip StartBounce;
     [SerializeField] AudioClip[] OnCollisionClip;
     bool bHasFired, bSoundPlayed;
     //bool bLaunched;
     Vector2 LaunchVelocity;
+    Rigidbody2D ballrigidbody2d;
     [SerializeField] float speedy;
     [SerializeField] float speedx;
     AudioSource Source;
@@ -32,6 +34,7 @@ public class BallProperties : MonoBehaviour
     }
     void Start()
     {
+        ballrigidbody2d = GetComponent<Rigidbody2D>();
         PaddleDistance = transform.position - P1Dock.transform.position;
         bHasFired = false;
         //  bLaunched = false;
@@ -84,10 +87,12 @@ public class BallProperties : MonoBehaviour
     }
     public void OnCollisionEnter2D(Collision2D collision)
     {
+        Vector2 velocityadd = new Vector2(UnityEngine.Random.Range(0, randomvelocityfactor), UnityEngine.Random.Range(0, randomvelocityfactor));
         if (bHasFired && !bSoundPlayed)
         {
             StartCoroutine(PlayAndChange());
             bSoundPlayed = true;
+            ballrigidbody2d.velocity += velocityadd;
         }
     }
 }

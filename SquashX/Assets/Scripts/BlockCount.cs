@@ -8,12 +8,15 @@ public class BlockCount : MonoBehaviour {
     public int PlayerScore = 0;
     public Text OnScreenText;
     [Range(0,100)] public int TimeScale = 1;
+    [SerializeField] private bool Autoplay;
     // Use this for initialization
     void Start() {
         TimeScale = 1;
         PlayerScore = 0;
-        
-       
+    }
+   public bool isAutoplay()
+    {
+        return Autoplay;
     }
     public void IncBlockNo()
     {
